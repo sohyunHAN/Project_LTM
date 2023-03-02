@@ -30,7 +30,7 @@ public class Member {
 	private String birth;
 	
 	@Column(nullable = false)
-	private LocalDateTime joindate;
+	private LocalDateTime joindate; //테스트
 	
 	
 	

@@ -6,15 +6,7 @@
 		<item key="SmartImportRootWizardPage.STORE_NESTED_PROJECTS" value="true"/>
 		<item key="SmartImportRootWizardPage.STORE_CONFIGURE_NATURES" value="true"/>
 		<list key="org.eclipse.ui.internal.wizards.datatransfer.SmartImportRootWizardPage.knownSources">
-			<item value="C:\Users\USER\Desktop\123\Project_LTM\LTM"/>
-		</list>
-	</section>
-	<section name="ChooseWorkspaceDialogSettings">
-		<item key="DIALOG_X_ORIGIN" value="191"/>
-		<item key="DIALOG_Y_ORIGIN" value="170"/>
-	</section>
-	<section name="WORKBENCH_SETTINGS">
-		<list key="ENABLED_TRANSFERS">
+			<item value="C:\webstudyA\0302projectclone\Project_LTM\LTM"/>
 		</list>
 	</section>
 </section>
