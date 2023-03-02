@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="EUC-KR">
+<title>Insert title here</title>
+</head>
+<body>
+	<div th:fragment="formErrorsFragment" th:if="${#fields.hasAnyErrors()}"
+	class="alert alert-danger" role="alert">
+    <div th:each="err : ${#fields.allErrors()}" th:text="${err}"/>
+	</div>
+</body>
+</html>
+
+<!-- 2023-02-27 승훈이가 조금 손봄 틀려서 고친거 X -->

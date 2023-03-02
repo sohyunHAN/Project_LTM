@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body layout:fragment="content">
+    <table border="1">
+       <tr>
+          <td>소통</td>
+       </tr>
+       <tr>
+          <td>닉네임</td>
+          <td><span th:if="${cboard.nickname != null}" th:text="${cboard.nickname.id}"></span></td>
+       </tr>
+       <tr>
+          <td>제목</td>
+          <td>[[${cboard.ctitle}]]</td>
+          <td th:if="${cboard.mdate == null}">작성일 : [[${#temporals.format(cboard.wdate, 'yyyy-MM-dd HH:mm')}]]</td>
+          <td th:if="${cboard.mdate != null}">수정일 : [[${#temporals.format(cboard.mdate, 'yyyy-MM-dd HH:mm')}]]</td>
+          <td>조회수 : [[${cboard.view}]]</td>
+       </tr>
+       <tr>
+          <td>내용</td>
+          <td th:utext="${cboard.cbody}"></td>
+       </tr>
+       <tr>
+          <td>
+          <a href="javascript:void(0);" class="recommend"
+          th:data-uri="@{|/cboard/vote/${cboard.id}|}">공감
+          <span th:text="${#lists.size(cboard.voter)}"></span>
+          </a>
+			<a th:href="@{|/cboard/mdate/${cboard.id}|}" th:text="수정"
+          sec:authorize="isAuthenticated()"
+          th:if="${cboard.nickname != null and #authentication.getPrincipal().getUsername() == cboard.nickname.id}"></a>
+          
+          <a href="javascript:void(0);" class="delete" th:data-uri="@{|/cboard/delete/${cboard.id}|}"
+          sec:authorize="isAuthenticated()" th:if="${cboard.nickname != null and #authentication.getPrincipal().getUsername() == cboard.nickname.id}"
+          th:text="삭제"></a>
+          </td>
+       </tr>
+       <tr>
+          <td>[[|${#lists.size(cboard.replyList)}개의 댓글이 있습니다😊|]]</td>
+       </tr>
+       
+       <!-- 댓글 -->
+       <tr th:each="reply, loop : ${paging}">
+       <div th:if="${cboard.id == reply.cboard.id}">
+          <td>댓글/작성자</td>
+          <td><span th:if="${reply.nickname != null}" th:text="${reply.nickname.id}"></span></td>
+          
+          <td>[[${reply.rbody}]]</td>
+          <td><a href="javascript:void(0);" class="recommend" th:data-uri="@{|/reply/vote/${reply.id}|}">공감
+          <span th:text="${#lists.size(reply.voter)}"></span>
+          </a></td>
+          
+          <td th:if="${reply.mdate == null}" >작성일 : [[${#temporals.format(reply.wdate, 'yyyy-MM-dd HH:mm')}]]</td>
+          <td th:if="${reply.mdate != null}">수정일 : [[${#temporals.format(reply.mdate, 'yyyy-MM-dd HH:mm')}]]</td>
+          
+          <td>
+          <a th:href="@{|/reply/mdate/${reply.id}|}"
+          sec:authorize="isAuthenticated()" th:if="${reply.nickname != null and #authentication.getPrincipal().getUsername() == reply.nickname.id}"
+          th:text="수정"></a>
+          
+          <a href="javascript:void(0);" th:data-uri="@{|/reply/delete/${reply.id}|}" class="delete"
+          sec:authorize="isAuthenticated()"  th:if="${reply.nickname != null and #authentication.getPrincipal().getUsername() == reply.nickname.id}" 
+          th:text="삭제"></a>
+          </td>
+       </div>
+       </tr>
+       <tr>
+       
+       <!-- 댓글 작성 -->
+          <td>작성</td>
+          <td>
+             <form th:action="@{|/reply/create/${id}|}" th:object="${replyFormDto}" method="post">
+               <div th:replace="~{form_errors :: formErrorsFragment}"></div>
+                   <textarea sec:authorize="isAnonymous()" disabled th:field="*{rbody}" rows="10" cols="50" placeholder="댓글작성"></textarea>
+                   <textarea sec:authorize="isAuthenticated()" th:field="*{rbody}" rows="10" cols="50" placeholder="댓글작성"></textarea>
+                <input type="submit" value="답변등록">
+            </form>        
+          </td>
+       </tr>
+       <tr>
+       	 <td><button><a th:href="@{|/cboard/list|}">메인으로</a></button></td>
+       </tr>
+    </table>
+    <table border="1">
+      <div th:if="${paging}">
+         <tr style="list-style: none;">
+            <td th:classappend="${!paging.hasPrevious}? 'disabled'">
+               <a th:href="@{|?page=${paging.number-1}|}">
+                  <span>이전</span>
+               </a>
+            </td>
+            <td th:each="page: ${#numbers.sequence(0, paging.totalPages-1)}"
+               th:if="${page >= paging.number-3 and page <= paging.number+3}"
+               th:classappend="${page == paging.number} ? 'active'">
+               <a th:text="${page}" th:href="@{|?page=${page}|}"></a>
+            </td>
+            <td th:classappend="${!paging.hasNext} ? 'disabled'">
+            <a th:href="@{|?page=${paging.number+1}|}">
+               <span>다음</span>
+            </a>
+            </td>
+         </tr>
+      </div>
+   </table>
+</body>
+<script layout:fragment="script" type='text/javascript'>
+// 게시글 + 댓글 삭제
+const delete_elements = document.getElementsByClassName("delete");
+Array.from(delete_elements).forEach(function(element) {
+    element.addEventListener('click', function() {
+        if(confirm("정말 삭제하시겠습니까?")) {
+            location.href = this.dataset.uri;
+        };
+    });
+});
+// 게시글 추천
+const recommend_elements = document.getElementsByClassName("recommend");
+Array.from(recommend_elements).forEach(function(element) {
+    element.addEventListener('click', function() {
+        if(confirm("추천하시겠습니까?")) {
+            location.href = this.dataset.uri;
+        };
+    });
+});
+</script>
+</html>

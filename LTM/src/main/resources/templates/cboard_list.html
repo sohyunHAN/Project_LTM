@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout}" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<div layout:fragment="content">
+	<table border="1">
+		<thead>
+			<tr>
+				<th>번호</th>
+				<th>제목</th>
+				<th>작성자</th>
+				<th>작성일</th>
+				<th>조회수</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="cboard, loop : ${paging}">
+			<td th:text="${paging.getTotalElements - (paging.number * paging.size) - loop.index}"></td>
+				<td>
+					<a th:href="@{|/cboard/detail/${cboard.id}|}"
+						th:text="${cboard.ctitle}"></a>
+					<span style="color: red;" th:if="${#lists.size(cboard.replyList) > 0}"
+						  th:text="${#lists.size(cboard.replyList)}">
+					</span>
+				</td>
+				<td><span th:if="${cboard.nickname != null}" th:text="${cboard.nickname.id}"></span></td>
+				<td th:text="${#temporals.format(cboard.wdate, 'yyyy-MM-dd HH:mm')}"></td>
+				<td th:text="${cboard.view}"></td>
+			</tr>
+		</tbody>
+	</table>
+	<!-- 페이징 구현 시작 -->
+	<table border="1">
+	<div th:if="${!paging.isEmpty()}">
+		<tr style="list-style: none;">
+			<td th:classappend="${!paging.hasPrevious}? 'disabled'">
+				<a th:href="@{|?page=${paging.number-1}|}">
+					<span>이전</span>
+				</a>
+			</td>
+			<td th:each="page : ${#numbers.sequence(0, paging.totalPages-1)}"
+				th:if="${page >= paging.number-5 and page <= paging.number+5}"
+				th:classappend="${page == paging.number}? 'active'">
+					<a th:text="${page}" th:href="@{|?page=${page}|}"></a>
+			</td>
+			<td th:classappend="${!paging.hasNext}?'disabled'">
+				<a th:href="@{|?page=${paging.number+1}|}">
+					<span>다음</span>
+				</a>
+			</td>
+		</tr>
+	</div>
+	</table>
+	<!-- 페이징 구현 끝 -->
+	<table border="1"><tr><td>
+	<a sec:authorize="isAuthenticated()" th:href="@{/cboard/create}">작성</a>
+	</td></tr></table>
+</div>
+</body>
+</html>

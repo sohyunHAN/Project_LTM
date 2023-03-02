@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript" src="/ckeditor/ckeditor.js"></script>
+</head>
+<body layout:fragment="content">
+	
+	<form th:object="${cboardFormDto}" method="post" enctype="multipart/form-data">
+		<input type="hidden" name="_csrf" id="_csrf" th:value="${_csrf.token}">
+	<div th:replace="~{form_errors :: formErrorsFragment}"></div>
+	<table border="1">
+		<tr>
+			<td>작성</td>
+		</tr>
+		<tr>
+			<td>제목</td>
+			<td><input type="text" th:field="*{ctitle}"
+			name="ctitle" id="ctitle" placeholder="제목"></td>
+		</tr>
+		<tr>
+			<td>내용</td>
+			<td><textarea name="content" id="content" th:field="*{cbody}"></textarea>
+				<script type="text/javascript">	// 글쓰기 editor 및 사진 업로드 기능
+				
+				CKEDITOR.replace('content',
+				{					    
+					filebrowserUploadUrl:'/user/imageUpload.do+'
+				});
+				</script>
+			</td>
+		</tr>
+		<tr>
+			<td><input type="submit" value="등록"></td>
+			<td><a th:href="@{|/cboard/list|}">취소</a></td>
+		</tr>
+	</table>
+	</form>
+</body>
+</html>
