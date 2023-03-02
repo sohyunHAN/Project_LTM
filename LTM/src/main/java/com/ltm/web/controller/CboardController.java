@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -21,6 +22,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.annotation.ResponseStatusExceptionResolver;
+import org.thymeleaf.templatemode.TemplateMode;
+import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 
 import com.ltm.web.Dto.CboardFormDto;
 import com.ltm.web.Dto.ReplyFormDto;
@@ -50,7 +53,7 @@ public class CboardController {
 			model.addAttribute("paging",paging);
 			List<Cboard> cboardList = this.cboardService.getList();
 			model.addAttribute("cboardList", cboardList);
-			return "cboard_list";
+			return "cboard/cboard_list";
 		}
 		
 		// 게시글 상세 + 댓글 페이징
@@ -91,14 +94,14 @@ public class CboardController {
 			}
 			
 			model.addAttribute("cboard", cboard);
-			return "cboard_detail";
+			return "cboard/cboard_detail";
 		}
 		
 		// 게시글 작성
 		@PreAuthorize("isAuthenticated()") // 로그인이 필요한 메서드를 의미
 		@GetMapping("/create")
 		public String cboardCreate(CboardFormDto cboardForm, Principal principal) {
-			return "cboard_form";
+			return "cboard/cboard_form";
 		}
 		
 		
@@ -108,7 +111,7 @@ public class CboardController {
 		public String cboardCreate(@Valid CboardFormDto cboardForm,
 				BindingResult bindingResult, Principal principal){		
 			if(bindingResult.hasErrors()) {
-				return "cboard_form";
+				return "cboard/cboard_form";
 			}
 			Member member = this.memberService.getMember(principal.getName());
 			this.cboardService.create(cboardForm.getCtitle(), cboardForm.getCbody(), member);
@@ -125,7 +128,7 @@ public class CboardController {
 			}
 			cboardForm.setCtitle(cboard.getCtitle());
 			cboardForm.setCbody(cboard.getCbody());
-			return "cboard_form";
+			return "cboard/cboard_form";
 		}
 		
 		// 게시글 수정 저장
@@ -134,7 +137,7 @@ public class CboardController {
 		public String cboardModify(@Valid CboardFormDto cboardForm, BindingResult bindingResult, @PathVariable("id")Integer id,
 				Principal principal) {
 			if(bindingResult.hasErrors()) {
-				return "cboard_form";
+				return "cboard/cboard_form";
 			}
 			Cboard cboard = this.cboardService.getCboard(id);
 			if(!cboard.getNickname().getId().equals(principal.getName())) {
@@ -166,5 +169,17 @@ public class CboardController {
 			this.cboardService.vote(cboard, member);
 			return String.format("redirect:/cboard/detail/%s", id);
 		}
-		
+		//templates 다중경로 설정
+		@Bean
+		public ClassLoaderTemplateResolver secondaryTemplateResolver() {
+		    ClassLoaderTemplateResolver secondaryTemplateResolver = new ClassLoaderTemplateResolver();
+		    secondaryTemplateResolver.setPrefix("templates/cboard/");
+		    secondaryTemplateResolver.setSuffix(".html");
+		    secondaryTemplateResolver.setTemplateMode(TemplateMode.HTML);
+		    secondaryTemplateResolver.setCharacterEncoding("UTF-8");
+		    secondaryTemplateResolver.setOrder(1);
+		    secondaryTemplateResolver.setCheckExistence(true);
+		        
+		    return secondaryTemplateResolver;
+		}
 }

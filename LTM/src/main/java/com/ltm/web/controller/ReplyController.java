@@ -44,7 +44,7 @@ public class ReplyController {
 			Member member = this.memberService.getMember(principal.getName());
 			if(bindingResult.hasErrors()) {
 				model.addAttribute("cboard", cboard);
-				return "cboard_detail";
+				return "cboard/cboard_detail";
 			}
 			this.replyService.create(cboard, replyForm.getRbody(), member);
 			return String.format("redirect:/cboard/detail/%s", id);
@@ -60,7 +60,7 @@ public class ReplyController {
 				  throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"수정권한이 없습니다");
 			  }
 			  replyForm.setRbody(reply.getRbody());
-			  return "reply_form";
+			  return "cboard/reply_form";
 		  }
 		 
 		
