@@ -20,7 +20,7 @@ public class SecurityConfig {
 	@Bean
 	SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		http.authorizeHttpRequests().requestMatchers(
-				new AntPathRequestMatcher("/**")).permitAll() //로그인 하지 않아도 모든 페이지에 접근가능 (추후 수정예정)
+				new AntPathRequestMatcher("/**")).permitAll() //로그인 하지 않아도 모든 페이지에 접근가능 (추후 첫 메인페이지만 접근하도록 수정 예정)
 
 		.and()
 			.formLogin()
