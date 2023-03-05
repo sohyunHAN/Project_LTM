@@ -3,7 +3,8 @@
 	  layout:decorate="~{layout}"
 	  lang="en">
 <body>
-<div layout:fragment="content" class="container my-3">
+    <!-- Blog Area Start -->
+    <div layout:fragment="content" class="container my-3">
     <div class="my-3 border-bottom">
         <div>
             <h4>회원가입</h4>
@@ -46,5 +47,22 @@
         <button type="submit" class="btn btn-primary">회원가입</button>
     </form>
 </div>
+    <!-- Blog Area End -->
+
+
+
+	<th:block layout:fragment="script">
+    <!-- jQuery (Necessary for All JavaScript Plugins) -->
+    <script src="js/jquery/jquery-2.2.4.min.js"></script>
+    <!-- Popper js -->
+    <script src="js/popper.min.js"></script>
+    <!-- Bootstrap js -->
+    <script src="js/bootstrap.min.js"></script>
+    <!-- Plugins js -->
+    <script src="js/plugins.js"></script>
+    <!-- Active js -->
+    <script src="js/active.js"></script>
+	</th:block>
 </body>
+
 </html>

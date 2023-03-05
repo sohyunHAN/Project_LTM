@@ -6,6 +6,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -19,8 +20,9 @@ public class SecurityConfig {
 
 	@Bean
 	SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-		http.authorizeHttpRequests().requestMatchers(
-				new AntPathRequestMatcher("/**")).permitAll() //로그인 하지 않아도 모든 페이지에 접근가능 (추후 첫 메인페이지만 접근하도록 수정 예정)
+		http.authorizeHttpRequests()
+			.requestMatchers(new AntPathRequestMatcher("/**")).permitAll()//로그인 하지 않아도 모든 페이지에 접근가능 (추후 첫 메인페이지만 접근하도록 수정 예정)
+			.mvcMatchers("/css/**", "/js/**", "/img/**").permitAll()
 
 		.and()
 			.formLogin()
