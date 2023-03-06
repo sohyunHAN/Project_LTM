@@ -3,60 +3,56 @@
 	  layout:decorate="~{layout}"
 	  lang="en">
 <body>
-<div layout:fragment="content" class="container my-3">
-    <div class="my-3 border-bottom">
-        <div>
-            <h4>회원가입</h4>
-        </div>
-    </div>
-    <form th:action="@{/member/create}" th:object="${memberFormDto}" method="post">
-    	<!-- 오류메세지출력 -->
-        <div th:replace="~{form_errors :: formErrorsFragment}"></div> 
-        <div class="mb-3">
-            <label for="id" class="form-label">사용자ID</label>
-            <input type="text" th:field="*{id}" class="form-control">
-        </div>
-        <div class="mb-3">
-            <label for="password1" class="form-label">비밀번호</label>
-            <input type="password" th:field="*{password1}" class="form-control">
-        </div>
-        <div class="mb-3">
-            <label for="password2" class="form-label">비밀번호 확인</label>
-            <input type="password" th:field="*{password2}" class="form-control">
-        </div>
-        <div class="mb-3">
-            <label for="nickname" class="form-label">닉네임</label>
-            <input type="text" th:field="*{nickname}" class="form-control">
-        </div>
-        <div class="mb-3">
-            <label for="email" class="form-label">이메일</label>
-            <input type="email" th:field="*{email}" class="form-control">
-        </div>
-        <div class="mb-3">
-            <label for="phone" class="form-label">연락처</label>
-            <input type="text" th:field="*{phone}" class="form-control">
-        </div>
-        <div class="mb-3">
-            <label for="birth" class="form-label">생년월일</label>
-            <input type="date" th:field="*{birth}" class="form-control">
-        </div>
-        <div class="mb-3">
-            <input type="hidden" th:field="*{joindate}" class="form-control">
-        </div>
-        <button type="submit" class="btn btn-primary">회원가입</button>
-    </form>
-</div>
-<th:block layout:fragment="script">
-    <!-- jQuery (Necessary for All JavaScript Plugins) -->
-    <script src="/js/jquery/jquery-2.2.4.min.js"></script>
-    <!-- Popper js -->
-    <script src="/js/popper.min.js"></script>
-    <!-- Bootstrap js -->
-    <script src="/js/bootstrap.min.js"></script>
-    <!-- Plugins js -->
-    <script src="/js/plugins.js"></script>
-    <!-- Active js -->
-    <script src="/js/active.js"></script>
-	</th:block>
+<div layout:fragment="content" class="blog-area section_padding_100 mt-100">
+	<div class="container">
+		<div class="row justify-content-center">
+		    <div class="my-3 border-bottom">
+		    </div>
+		    <form th:action="@{/member/create}" th:object="${memberFormDto}" method="post">
+		    	<!-- 오류메세지출력 -->
+		        <!-- <div th:replace="~{form_errors :: formErrorsFragment}"></div>  -->
+		        <div class="mb-3">
+		            <label for="id" class="form-label">사용자ID</label>
+		            <input type="text" th:field="*{id}" class="form-control">
+		            <p th:if="${#fields.hasErrors('id')}" th:errors="*{id}" class="fieldError">Incorrect data</p>
+		        </div>
+		        <div class="mb-3">
+		            <label for="password1" class="form-label">비밀번호</label>
+		            <input type="password" th:field="*{password1}" class="form-control">
+		            <p th:if="${#fields.hasErrors('password1')}" th:errors="*{password1}" class="fieldError">Incorrect data</p>
+		        </div>
+		        <div class="mb-3">
+		            <label for="password2" class="form-label">비밀번호 확인</label>
+		            <input type="password" th:field="*{password2}" class="form-control">
+		        </div>
+		        <div class="mb-3">
+		            <label for="nickname" class="form-label">닉네임</label>
+		            <input type="text" th:field="*{nickname}" class="form-control">
+		            <p th:if="${#fields.hasErrors('nickname')}" th:errors="*{nickname}" class="fieldError">Incorrect data</p>
+		        </div>
+		        <div class="mb-3">
+		            <label for="email" class="form-label">이메일</label>
+		            <input type="email" th:field="*{email}" class="form-control">
+		            <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="fieldError">Incorrect data</p>
+		        </div>
+		        <div class="mb-3">
+		            <label for="phone" class="form-label">연락처</label>
+		            <input type="text" th:field="*{phone}" class="form-control">
+		            <p th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}" class="fieldError">Incorrect data</p>
+		        </div>
+		        <div class="mb-3">
+		            <label for="birth" class="form-label">생년월일</label>
+		            <input type="date" th:field="*{birth}" class="form-control">
+		            <p th:if="${#fields.hasErrors('birth')}" th:errors="*{birth}" class="fieldError">Incorrect data</p>
+		        </div>
+		        <div class="mb-3">
+		            <input type="hidden" th:field="*{joindate}" class="form-control">
+		        </div>
+		        <button type="submit" class="btn btn-primary">회원가입</button>
+		    </form>
+		</div>
+		</div>
+		</div>
+
 </body>
 </html>

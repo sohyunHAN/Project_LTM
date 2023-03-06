@@ -12,9 +12,9 @@
             <div class="main-menu h-100">
               <nav class="navbar h-100 navbar-expand-lg">
                 <!-- Logo Area  -->
-                <a class="navbar-brand" href="index.html"
-                  ><img src="/img/logo5.png" alt="Logo"
-                /></a>
+                <a class="navbar-brand" th:href="@{/}">
+                  <img src="/img/logo5.png" alt="Logo"/>
+                </a>
 
                 <button
                   class="navbar-toggler"
@@ -32,21 +32,21 @@
                   <!-- Menu Area Start  -->
                   <ul class="navbar-nav ml-auto">
                     <li class="nav-item active">
-                      <a class="nav-link" href="#"
+                      <a class="nav-link" th:href="@{/}"
                         >Home <span class="sr-only">(current)</span></a
                       >
                     </li>
                     <li class="nav-item">
-                      <a class="nav-link" href="#">Playlist</a>
+                      <a class="nav-link" href="">Playlist</a>
                     </li>
                     <li class="nav-item">
-                      <a class="nav-link" href="#">Community</a>
+                      <a class="nav-link" href="">Community</a>
                     </li>
                     <li class="nav-item">
-                      <a class="nav-link" href="#">notice</a>
+                      <a class="nav-link" href="">notice</a>
                     </li>
                     <li class="nav-item">
-                      <a class="nav-link" href="#">Event</a>
+                      <a class="nav-link" th:href="@{/event}">Event</a>
                     </li>
                     <li class="nav-item dropdown">
                       <a
@@ -63,13 +63,13 @@
                         class="dropdown-menu"
                         aria-labelledby="navbarDropdown"
                       >
-                        <a class="dropdown-item" href="#">Myplaylist</a>
-                        <a class="dropdown-item" href="#">Account</a>
+                        <a class="dropdown-item" href="">Myplaylist</a>
+                        <a class="dropdown-item" href="">Account</a>
                       </div>
                     </li>
                     <li class="nav-item">
-                      <a class="nav-link" sec:authorize="isAnonymous()" th:href="@{/member/login}">로그인</a>
-                      <a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/member/logout}">로그아웃</a>
+                      <a class="nav-link" sec:authorize="isAnonymous()" th:href="@{/member/login}">LOGIN</a>
+                      <a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/member/logout}">LOGOUT</a>
                     </li>
                   </ul>
                 </div>
