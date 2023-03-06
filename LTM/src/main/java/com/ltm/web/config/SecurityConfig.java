@@ -22,7 +22,7 @@ public class SecurityConfig {
 	SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		http.authorizeHttpRequests()
 			.requestMatchers(new AntPathRequestMatcher("/**")).permitAll()//로그인 하지 않아도 모든 페이지에 접근가능 (추후 첫 메인페이지만 접근하도록 수정 예정)
-			.mvcMatchers("/css/**", "/js/**", "/img/**").permitAll()
+			.antMatchers("/css/**", "/js/**", "/img/**").permitAll()
 
 		.and()
 			.formLogin()
@@ -48,4 +48,5 @@ public class SecurityConfig {
 	AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception{
 		return authenticationConfiguration.getAuthenticationManager();
 	}
+	
 }
