@@ -1,0 +1,5 @@
+@charset "EUC-KR";
+.pagination {
+    --bs-pagination-active-bg: #ced4da;
+    --bs-pagination-active-border-color: #ced4da;
+}

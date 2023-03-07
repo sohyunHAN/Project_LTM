@@ -42,12 +42,13 @@ public class CboardService {
 		}
 			
 		// 게시글 등록
-		public void create(String ctitle, String cbody, Member user ) {
+		public void create(String ctitle, String cbody, Member user, String tags) {
 			Cboard c = new Cboard();
 			c.setCtitle(ctitle);
 			c.setCbody(cbody);
 			c.setWdate(LocalDateTime.now());
 			c.setNickname(user); // 작성자 : user
+			c.setTags(tags); // 해시태그 
 			this.cboardRepository.save(c);
 		}
 		
@@ -59,11 +60,14 @@ public class CboardService {
 			return this.cboardRepository.findAll(pageable);
 		}
 		
+		
+		
 		// 게시글 수정
-		public void modify(Cboard cboard, String ctitle, String cbody) {
+		public void modify(Cboard cboard, String ctitle, String cbody, String tags) {
 			cboard.setCtitle(ctitle);
 			cboard.setCbody(cbody);
 			cboard.setMdate(LocalDateTime.now());
+			cboard.setTags(tags);
 			this.cboardRepository.save(cboard);
 		}
 		

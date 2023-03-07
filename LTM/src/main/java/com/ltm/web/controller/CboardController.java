@@ -114,7 +114,7 @@ public class CboardController {
 				return "cboard/cboard_form";
 			}
 			Member member = this.memberService.getMember(principal.getName());
-			this.cboardService.create(cboardForm.getCtitle(), cboardForm.getCbody(), member);
+			this.cboardService.create(cboardForm.getCtitle(), cboardForm.getCbody(), member, cboardForm.getTags());
 			return "redirect:/cboard/list"; // 등록후 목록으로		
 		}
 		
@@ -143,7 +143,7 @@ public class CboardController {
 			if(!cboard.getNickname().getId().equals(principal.getName())) {
 				throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"수정권한이 없습니다.");
 			}
-			this.cboardService.modify(cboard, cboardForm.getCtitle(), cboardForm.getCbody());
+			this.cboardService.modify(cboard, cboardForm.getCtitle(), cboardForm.getCbody(), cboardForm.getTags());
 			return String.format("redirect:/cboard/detail/%s", id);	
 		}
 		

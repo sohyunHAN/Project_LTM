@@ -4,38 +4,54 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script type="text/javascript" src="/ckeditor/ckeditor.js"></script>
+<link rel='stylesheet' href='https://unpkg.com/@yaireo/tagify/dist/tagify.css'>
+<link rel='stylesheet' href='https://unpkg.com/@yaireo/dragsort/dist/dragsort.css'>
+<link rel="stylesheet" href="/css/hashtag.css" />
 </head>
 <body layout:fragment="content">
+
+<div class="container" style="padding-top: 95px; padding-left: 25px;">
+	<div><h1>Talk</h1></div>
+	<form th:object="${cboardFormDto}" method="post" enctype="multipart/form-data" class="form-floating">
+		<input type="hidden" name="_csrf" id="_csrf" th:value="${_csrf.token}">	
+		
+	<div class="mb-3">
+		<p style="color: red;" th:if="${#fields.hasErrors('ctitle')}" th:errors="*{ctitle}" class="fieldError"></p>
+			<input class="form-control" type="text" th:field="*{ctitle}"
+			name="ctitle" id="ctitle" placeholder="제목">
+	</div>
 	
-	<form th:object="${cboardFormDto}" method="post" enctype="multipart/form-data">
-		<input type="hidden" name="_csrf" id="_csrf" th:value="${_csrf.token}">
-	<div th:replace="~{form_errors :: formErrorsFragment}"></div>
-	<table border="1">
-		<tr>
-			<td>작성</td>
-		</tr>
-		<tr>
-			<td>제목</td>
-			<td><input type="text" th:field="*{ctitle}"
-			name="ctitle" id="ctitle" placeholder="제목"></td>
-		</tr>
-		<tr>
-			<td>내용</td>
-			<td><textarea name="content" id="content" th:field="*{cbody}"></textarea>
-				<script type="text/javascript">	// 글쓰기 editor 및 사진 업로드 기능
-				
-				CKEDITOR.replace('content',
-				{					    
-					filebrowserUploadUrl:'/user/imageUpload.do+'
-				});
+		<p style="color: red;" th:if="${#fields.hasErrors('cbody')}" th:errors="*{cbody}" class="fieldError"></p>
+			<textarea name="content" id="content" th:field="*{cbody}"></textarea>
+				<script type="text/javascript">
+					CKEDITOR.replace('content',{height : 300});
 				</script>
-			</td>
-		</tr>
-		<tr>
-			<td><input type="submit" value="등록"></td>
-			<td><a th:href="@{|/cboard/list|}">취소</a></td>
-		</tr>
-	</table>
+		<div class="mb-3">
+		<input class="form-control" type="text" placeholder="태그" name="tags" id="tags">
+		<script src='https://unpkg.com/@yaireo/tagify'></script>
+                <script src='https://unpkg.com/@yaireo/dragsort'></script>
+                <script>
+                    var input = document.querySelector('input[name=tags]');                  
+                    var tagify = new Tagify(input, {
+                      originalInputValueFormat: valuesArr => valuesArr.map(item => item.value).join(' #')
+                    })
+                    var dragsort = new DragSort(tagify.DOM.scope, {
+                        selector: '.'+tagify.settings.classNames.tag,
+                        callbacks: {
+                            dragEnd: onDragEnd
+                        }
+                    })
+                    function onDragEnd(elm){
+                        tagify.updateValueByDOMTags()
+                    }
+                    tagify.on('change', e => console.log(e.detail.value))
+                </script>
+		</div>
+		<div style="padding-top: 30px">		
+		<button class="btn btn-light"><a th:href="@{|/cboard/list|}" onclick="cancel">돌아가기</a></button>
+		<input style="float: right;" class="btn btn-light" type="submit" value="등록">
+		</div>
 	</form>
+</div>
 </body>
 </html>

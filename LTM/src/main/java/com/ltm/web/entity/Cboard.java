@@ -47,5 +47,7 @@ public class Cboard {
 	
 	@ManyToMany // 하나의 질문에 여러사람이 추천할 수 있고 한 사람이 여러 개의 질문을 추천할 수 있다
 	Set<Member> voter; // 추천인 (set은 중복을 허용하지 않는 자료형)
+	
+	private String tags;
 
 }
