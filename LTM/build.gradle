@@ -47,6 +47,8 @@ dependencies { // 2023-02-27 승훈이가 정리함
     implementation 'commons-fileupload:commons-fileupload:1.5'
 	implementation 'commons-io:commons-io:2.11.0'
 	implementation 'org.json:json:20220924'
+	//json api
+	implementation 'com.googlecode.json-simple:json-simple:1.1.1'
     
 }
 
