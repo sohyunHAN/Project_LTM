@@ -3,114 +3,114 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet" href="/css/cboard_list.css" />
 </head>
 <body layout:fragment="content">
 <div class="container" style="padding-top: 130px; padding-left: 180px;">
-    <table border="1">
-       <tr>
-          <td>소통</td>
-       </tr>
-       <tr>
-          <td>닉네임</td>
-          <td><span th:if="${cboard.nickname != null}" th:text="${cboard.nickname.id}"></span></td>
-       </tr>
-       <tr>
-          <td>제목</td>
+    <table border="0" style="width: 90%">
+       <tr style="border-bottom: 1px solid #e9e9e9;">
           <td>[[${cboard.ctitle}]]</td>
-          <td th:if="${cboard.mdate == null}">작성일 : [[${#temporals.format(cboard.wdate, 'yyyy-MM-dd HH:mm')}]]</td>
-          <td th:if="${cboard.mdate != null}">수정일 : [[${#temporals.format(cboard.mdate, 'yyyy-MM-dd HH:mm')}]]</td>
-          <td>조회수 : [[${cboard.view}]]</td>
+          <td style="float: right;" >[[${#temporals.format(cboard.wdate, 'yyyy.MM.dd HH:mm')}]]</td>
        </tr>
-       <tr>
-          <td>내용</td>
-          <td th:utext="${cboard.cbody}"></td>
+       <tr style="border-bottom: 1px solid #e9e9e9;">
+          <td><span th:if="${cboard.nickname != null}" th:text="${cboard.nickname.id}"></span></td>
+          <td style="float: right;">
+          <p style="display:inline-block;">조회수&nbsp;<span style="color: black;">&nbsp;[[${cboard.view}]]</span></p>&nbsp;
+          <p style="display:inline-block;">추천&nbsp;<span style="color: black;">&nbsp;[[${#lists.size(cboard.voter)}]]</span></p>&nbsp;
+          <p style="display:inline-block;">댓글&nbsp;<span style="color: black;">&nbsp;[[${#lists.size(cboard.replyList)}]]</span></p></td>
        </tr>
-       <tr>
-          <td>태그</td>
-		  <td style="color: #e9e9e9" th:text="${'#'+cboard.tags}"></td>
+       <tr style="border-bottom: 1px solid #e9e9e9;">
+       	  <td><div style="width: 1000px; height: 400px;" th:utext="${cboard.cbody}"></div></td>
        </tr>
-       <tr>
+       <tr style="border-bottom: 1px solid #e9e9e9; float: left;">
+		  <td style="color: gray" th:text="${cboard.tags}"></td>
+       </tr>
+       <tr style="border-bottom: 1px solid #e9e9e9;">
+       	  <td style="text-align: center;"><a href="javascript:void(0);" class="recommend"
+          th:data-uri="@{|/cboard/vote/${cboard.id}|}"}>
+          <i class="bi bi-heart"><span th:text="${#lists.size(cboard.voter)}"></span></i>
+          </a></td>
+       </tr>
+       <tr style="border-bottom: 1px solid #e9e9e9; text-align: center;">
+       	 <td><button class="btn btn-light"><a th:href="@{|/cboard/list|}">목록으로</a></button></td>
+       </tr>
+       <tr style="border-bottom: 1px solid #e9e9e9; float: right;">
           <td>
-          <a href="javascript:void(0);" class="recommend"
-          th:data-uri="@{|/cboard/vote/${cboard.id}|}"}>공감
-          <span th:text="${#lists.size(cboard.voter)}"></span>
-          </a>
-			<a th:href="@{|/cboard/mdate/${cboard.id}|}" th:text="수정"
+			<a class="btn btn-light" th:href="@{|/cboard/mdate/${cboard.id}|}" th:text="수정"
           sec:authorize="isAuthenticated()"
           th:if="${cboard.nickname != null and #authentication.getPrincipal().getUsername() == cboard.nickname.id}"></a>
-          
-          <a href="javascript:void(0);" class="delete" th:data-uri="@{|/cboard/delete/${cboard.id}|}"
+     
+          <button class="btn btn-light"><a href="javascript:void(0);" class="delete" th:data-uri="@{|/cboard/delete/${cboard.id}|}"
           sec:authorize="isAuthenticated()" th:if="${cboard.nickname != null and #authentication.getPrincipal().getUsername() == cboard.nickname.id}"
-          th:text="삭제"></a>
+          th:text="삭제"></a></button>
           </td>
        </tr>
-       <tr>
-          <td>[[|${#lists.size(cboard.replyList)}개의 댓글이 있습니다😊|]]</td>
+
+       <tr class="card" style="border-bottom: 1px solid #e9e9e9;">
+          <td style="border-bottom: 1px solid #e9e9e9;" class="card-body">댓글 [[|${#lists.size(cboard.replyList)} 개|]]</td>
        </tr>
        
        <!-- 댓글 -->
        <tr th:each="reply, loop : ${paging}">
        <div th:if="${cboard.id == reply.cboard.id}">
-          <td>댓글/작성자</td>
-          <td><span th:if="${reply.nickname != null}" th:text="${reply.nickname.id}"></span></td>
-          
-          <td>[[${reply.rbody}]]</td>
-          <td><a class="recommend" th:data-uri="@{|/reply/vote/${reply.id}|}">공감
-          <span th:text="${#lists.size(reply.voter)}"></span>
-          
-          <td th:if="${reply.mdate == null}" >작성일 : [[${#temporals.format(reply.wdate, 'yyyy-MM-dd HH:mm')}]]</td>
-          <td th:if="${reply.mdate != null}">수정일 : [[${#temporals.format(reply.mdate, 'yyyy-MM-dd HH:mm')}]]</td>
-          
           <td>
-          <a th:href="@{|/reply/mdate/${reply.id}|}"
-          sec:authorize="isAuthenticated()" th:if="${reply.nickname != null and #authentication.getPrincipal().getUsername() == reply.nickname.id}"
-          th:text="수정"></a>
-          
+          <span th:if="${reply.nickname != null}" th:text="${reply.nickname.id}"></span>
+          <span style="color: gray;" th:if="${reply.mdate == null}">[[${#temporals.format(reply.wdate, 'yyyy.MM.dd HH:mm')}]]</span>
+          <p>[[${reply.rbody}]]</p>
+          </td>
+          <td><a class="recommend" th:data-uri="@{|/reply/vote/${reply.id}|}">
+          <i class="bi bi-hand-thumbs-up"><span th:text="${#lists.size(reply.voter)}"></span></i>
+          <td><button class="btn btn-light">
           <a href="javascript:void(0);" th:data-uri="@{|/reply/delete/${reply.id}|}" class="deleteR"
           sec:authorize="isAuthenticated()"  th:if="${reply.nickname != null and #authentication.getPrincipal().getUsername() == reply.nickname.id}" 
-          th:text="삭제"></a>
+          th:text="삭제"></a></button>
           </td>
-       </div>
+          <br>	
+	  </div>
        </tr>
-       <tr>
        
+       <tr style="border-bottom: 1px solid #e9e9e9;">
        <!-- 댓글 작성 -->
-          <td>작성</td>
           <td>
+          <div class="card">
+          <div class="card-header">
+    		댓글 쓰기
+  		  </div>
+  		  <div class="card-body">
+  		  
              <form th:action="@{|/reply/create/${id}|}" th:object="${replyFormDto}" method="post" onsubmit="return checks()">
                <p style="color: red;" th:if="${#fields.hasErrors('rbody')}" th:errors="*{rbody}" class="fieldError"></p>
-                   <textarea sec:authorize="isAnonymous()" disabled th:field="*{rbody}" rows="10" cols="50" placeholder="댓글작성" id="rbody"></textarea>
-                   <textarea sec:authorize="isAuthenticated()" th:field="*{rbody}" rows="10" cols="50" placeholder="댓글작성" id="rbody"></textarea>
-                <input type="submit" value="답변등록">
-            </form>        
+                   <textarea class="card-text" sec:authorize="isAnonymous()" disabled th:field="*{rbody}" rows="10" cols="50" placeholder="댓글작성" id="rbody"></textarea>
+                   <textarea sec:authorize="isAuthenticated()" th:field="*{rbody}" rows="10" cols="125" placeholder="댓글작성" id="rbody"></textarea>
+                <input class="btn btn-light" type="submit" value="등록">
+            </form>
+           </div>
+           </div>
+           </div>    
           </td>
        </tr>
-       <tr>
-       	 <td><button><a th:href="@{|/cboard/list|}">메인으로</a></button></td>
-       </tr>
     </table>
-</div>
-    <table border="1">
-      <div th:if="${paging}">
-         <tr style="list-style: none;">
-            <td th:classappend="${!paging.hasPrevious}? 'disabled'">
-               <a th:href="@{|?page=${paging.number-1}|}">
-                  <span>이전</span>
+
+      <div th:if="${paging}" aria-label="Page navigation example" style="padding-top: 30px">
+         <ul style="list-style: none;" class="pagination">
+            <li class="page-item" th:classappend="${!paging.hasPrevious}? 'disabled'">
+               <a class="page-link" th:href="@{|?page=${paging.number-1}|}">
+                  <span style="color: black;">이전</span>
                </a>
-            </td>
-            <td th:each="page: ${#numbers.sequence(0, paging.totalPages-1)}"
+            </li>
+            <li th:each="page: ${#numbers.sequence(0, paging.totalPages-1)}"
                th:if="${page >= paging.number-3 and page <= paging.number+3}"
                th:classappend="${page == paging.number} ? 'active'">
-               <a th:text="${page}" th:href="@{|?page=${page}|}"></a>
-            </td>
-            <td th:classappend="${!paging.hasNext} ? 'disabled'">
-            <a th:href="@{|?page=${paging.number+1}|}">
-               <span>다음</span>
+               <a style="color: black;" class="page-link" th:text="${page}" th:href="@{|?page=${page}|}"></a>
+            </li>
+            <li class="page-item" th:classappend="${!paging.hasNext} ? 'disabled'">
+            <a class="page-link" th:href="@{|?page=${paging.number+1}|}">
+               <span style="color: black;">다음</span>
             </a>
-            </td>
-         </tr>
+            </li>
+         </ul>
       </div>
-   </table>
+</div>
 </body>
 <script layout:fragment="script" type='text/javascript'>
 // 게시글

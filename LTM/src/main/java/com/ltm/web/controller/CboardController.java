@@ -128,6 +128,7 @@ public class CboardController {
 			}
 			cboardForm.setCtitle(cboard.getCtitle());
 			cboardForm.setCbody(cboard.getCbody());
+			cboardForm.setTags(cboard.getTags());
 			return "cboard/cboard_form";
 		}
 		

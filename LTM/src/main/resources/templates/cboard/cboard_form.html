@@ -21,7 +21,7 @@
 			name="ctitle" id="ctitle" placeholder="제목">
 	</div>
 	
-		<p style="color: red;" th:if="${#fields.hasErrors('cbody')}" th:errors="*{cbody}" class="fieldError"></p>
+		<p style="color: red;" th:if="${#fields.hasErrors('cbody')}" th:errors="*{cbody}"></p>
 			<textarea name="content" id="content" th:field="*{cbody}"></textarea>
 				<script type="text/javascript">
 					CKEDITOR.replace('content',{height : 300});
@@ -33,7 +33,7 @@
                 <script>
                     var input = document.querySelector('input[name=tags]');                  
                     var tagify = new Tagify(input, {
-                      originalInputValueFormat: valuesArr => valuesArr.map(item => item.value).join(' #')
+                      originalInputValueFormat: valuesArr => valuesArr.map(item => item.value).join(',')
                     })
                     var dragsort = new DragSort(tagify.DOM.scope, {
                         selector: '.'+tagify.settings.classNames.tag,
