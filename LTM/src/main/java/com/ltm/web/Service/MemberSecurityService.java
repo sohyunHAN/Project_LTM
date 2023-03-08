@@ -32,7 +32,7 @@ public class MemberSecurityService implements UserDetailsService{
 		}
 		Member member = _member.get();
 		List<GrantedAuthority> authorities = new ArrayList<>();
-		if("admin".equals(id)) { //id가 admin이라면 관리자 권한을 줌
+		if("admin".equals(id) ) { 
 			authorities.add(new SimpleGrantedAuthority(MemberRole.ADMIN.getValue()));
 		}else {
 			authorities.add(new SimpleGrantedAuthority(MemberRole.MEMBER.getValue()));

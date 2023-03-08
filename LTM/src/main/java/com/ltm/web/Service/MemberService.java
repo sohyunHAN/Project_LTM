@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ltm.web.DataNotFoundException;
+import com.ltm.web.constant.MemberRole;
 import com.ltm.web.entity.Member;
 import com.ltm.web.repository.MemberRepository;
 
@@ -22,7 +23,7 @@ public class MemberService {
 	private final MemberRepository memberRepository;
 	private final PasswordEncoder passwordEncoder;
 	
-	public Member create(String id, String password, String nickname, String email, String phone, String birth, LocalDateTime joindate) {
+	public Member create(String id, String password, String nickname, String email, String phone, String birth, LocalDateTime joindate, MemberRole role) {
 		Member member = new Member();
 		member.setId(id);
 		member.setPassword(passwordEncoder.encode(password));
@@ -31,7 +32,7 @@ public class MemberService {
 		member.setPhone(phone);
 		member.setBirth(birth); 
 		member.setJoindate(LocalDateTime.now());
-		
+		member.setRole(role);
 		this.memberRepository.save(member);
 		return member;
 	}

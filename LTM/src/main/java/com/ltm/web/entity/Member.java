@@ -6,9 +6,12 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.ltm.web.constant.MemberRole;
 import com.ltm.web.entity.playlist.PlayList;
 import com.ltm.web.entity.playlist.WishList;
 
@@ -39,6 +42,9 @@ public class Member {
 	
 	@Column(nullable = false)
 	private LocalDateTime joindate; //테스트
+	
+	@Enumerated(EnumType.STRING)
+	private MemberRole role;
 	
 	//위시리스트
 	@OneToMany(mappedBy = "member")

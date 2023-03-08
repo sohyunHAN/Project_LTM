@@ -6,7 +6,7 @@
 <div layout:fragment="content" class="blog-area section_padding_100 mt-100">
 	<div class="container">
 		<div class="row justify-content-center">
-    <form th:action="@{/member/login}" method="post">
+    <form th:action="@{/member/login}" method="post" style="width:450px;">
         <div th:if="${param.error}">
             <div class="alert alert-danger">
                 사용자ID 또는 비밀번호를 확인해 주세요.
