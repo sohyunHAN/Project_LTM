@@ -22,32 +22,42 @@ import lombok.Setter;
 @Entity
 public class Cboard {
 	
+	/*게시번호*/
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id; // 게시번호
+	private Integer id;
 	
+	/*제목*/
 	@Column(length = 50)
-	private String ctitle; // 제목
+	private String ctitle;
 	
+	/*내용*/
 	@Column(columnDefinition = "TEXT")
 	private String cbody; // 내용
 	
+	/*작성일*/
 	private LocalDateTime wdate; //작성일
 	
+	/*수정일*/
 	private LocalDateTime mdate; // 수정일
 	
+	/*게시글에 댓글*/
 	@OneToMany(mappedBy = "cboard", cascade = CascadeType.REMOVE)
 	private List<Reply> replyList;
-
-	@Column(columnDefinition = "integer default 0", nullable = false)	// 조회수의 기본 값을 0으로 지정, null 불가 처리
-	private int view;
 	
+	/*조회수*/
+	@Column(columnDefinition = "integer default 0", nullable = false)
+	private int view; // 조회수의 기본 값을 0으로 지정, null 불가 처리
+	
+	/*작성자*/
 	@ManyToOne
 	private Member nickname; // 작성자
 	
+	/*추천인 (set은 중복을 허용하지 않는 자료형)*/
 	@ManyToMany // 하나의 질문에 여러사람이 추천할 수 있고 한 사람이 여러 개의 질문을 추천할 수 있다
-	Set<Member> voter; // 추천인 (set은 중복을 허용하지 않는 자료형)
+	Set<Member> voter;
 	
+	/*태그*/
 	private String tags;
 
 }

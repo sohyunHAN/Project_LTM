@@ -25,9 +25,8 @@ import lombok.RequiredArgsConstructor;
 public class CboardService {
 	
 	private final CboardRepository cboardRepository;
-	
-	
-	// 게시글 조회
+		
+		/*게시글 조회*/
 		public List<Cboard> getList(){
 			return this.cboardRepository.findAll();
 		}
@@ -41,7 +40,7 @@ public class CboardService {
 			}
 		}
 			
-		// 게시글 등록
+		/*게시글 등록*/
 		public void create(String ctitle, String cbody, Member user, String tags) {
 			Cboard c = new Cboard();
 			c.setCtitle(ctitle);
@@ -52,7 +51,7 @@ public class CboardService {
 			this.cboardRepository.save(c);
 		}
 		
-		// 게시글 페이징
+		/*게시글 페이징*/
 		public Page<Cboard> getList(int page){
 			List<Sort.Order> sorts = new ArrayList<>(); 
 			sorts.add(Sort.Order.desc("wdate")); // 작성일 역순
@@ -62,7 +61,7 @@ public class CboardService {
 		
 		
 		
-		// 게시글 수정
+		/*게시글 수정*/
 		public void modify(Cboard cboard, String ctitle, String cbody, String tags) {
 			cboard.setCtitle(ctitle);
 			cboard.setCbody(cbody);
@@ -71,18 +70,18 @@ public class CboardService {
 			this.cboardRepository.save(cboard);
 		}
 		
-		// 게시글 삭제
+		/*게시글 삭제*/
 		public void delete(Cboard cboard) {
 			this.cboardRepository.delete(cboard);
 		}
 		
-		// 게시글 조회수
+		/*게시글 조회수*/
 		@Transactional
 		public int updateView(Integer id) {
 			return this.cboardRepository.updateView(id);
 		}
 		
-		// 게시글 추천
+		/*게시글 추천*/
 		public void vote(Cboard cboard, Member member) {
 			cboard.getVoter().add(member);
 			this.cboardRepository.save(cboard);

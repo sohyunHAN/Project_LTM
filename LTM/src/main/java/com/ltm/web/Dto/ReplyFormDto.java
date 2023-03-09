@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 public class ReplyFormDto {
 	
-	@NotEmpty(message = "내용을 입력해주세요😊")
+	@NotEmpty(message = "내용을 입력해주세요")
 	private String rbody;
 
 }

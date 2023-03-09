@@ -1,54 +1,49 @@
 <!DOCTYPE html>
-<html layout:decorate="~{layout}" xmlns:td="http://www.tdymeleaf.org">
+<html layout:decorate="~{layout}" xmlns:th="http://www.tdymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>게시글 리스트</title>
 <link rel="stylesheet" href="/css/cboard_list.css" />
 </head>
 <body>
-<div layout:fragment="content" class="container" style="padding-top: 130px; padding-left: 80px;">
-	<table border="0" style="width: 90%;">
-		<tdead>
-			<tr style="border-bottom: 1px solid #e9e9e9; text-align: center;">
-				<td>번호</td>
-				<td>제목</td>
-				<td>작성자</td>
-				<td>작성일</td>
-				<td>조회수</td>
-				<td>추천수</td>
-			</tr>
-		</tdead>
+	<div layout:fragment="content" class="container" style="padding-top: 130px; padding-left: 80px;">
+		<div>
+			<h1>Talk</h1>
+		</div>
+		<table style="width: 90%;">
+			<thead>
+				<tr style="border-bottom: 1px solid #e9e9e9; text-align: center;">
+					<td>번호</td>
+					<td>제목</td>
+					<td>작성자</td>
+					<td>작성일</td>
+					<td>조회수</td>
+					<td>추천수</td>
+				</tr>
+			</thead>
 		<tbody>
 			<tr th:each="cboard, loop : ${paging}">
-			<td style="border-bottom: 1px solid #e9e9e9; text-align: center;" th:text="${paging.getTotalElements - (paging.number * paging.size) - loop.index}"></td>
+				<td style="border-bottom: 1px solid #e9e9e9; text-align: center;" th:text="${paging.getTotalElements - (paging.number * paging.size) - loop.index}"></td>
 				<td style="border-bottom: 1px solid #e9e9e9">
-					<a th:href="@{|/cboard/detail/${cboard.id}|}"
-						th:text="${cboard.ctitle}"></a>
-					<span style="color: red;" th:if="${#lists.size(cboard.replyList) > 0}"
-						  th:text="${#lists.size(cboard.replyList)}">
-					</span>
+					<a th:href="@{|/cboard/detail/${cboard.id}|}" th:text="${cboard.ctitle}"></a>
+						<span style="color: red;" th:if="${#lists.size(cboard.replyList) > 0}" th:text="${#lists.size(cboard.replyList)}"></span>
 				</td>
-				<td style="border-bottom: 1px solid #e9e9e9; text-align: center;"><span th:if="${cboard.nickname != null}" th:text="${cboard.nickname.id}"></span></td>
-				<td style="border-bottom: 1px solid #e9e9e9; text-align: center;" th:text="${#temporals.format(cboard.wdate, 'yyyy.MM.dd')}"></td>
-				<td style="border-bottom: 1px solid #e9e9e9; text-align: center;" th:text="${cboard.view}"></td>
-				<td style="border-bottom: 1px solid #e9e9e9; color:blue; text-align: center;">[[${#lists.size(cboard.voter)}]]</td>
+					<td style="border-bottom: 1px solid #e9e9e9; text-align: center;"><span th:if="${cboard.nickname != null}" th:text="${cboard.nickname.id}"></span></td>
+					<td style="border-bottom: 1px solid #e9e9e9; text-align: center;" th:text="${#temporals.format(cboard.wdate, 'yyyy.MM.dd')}"></td>
+					<td style="border-bottom: 1px solid #e9e9e9; text-align: center;" th:text="${cboard.view}"></td>
+					<td style="border-bottom: 1px solid #e9e9e9; color:blue; text-align: center;">[[${#lists.size(cboard.voter)}]]</td>
 			</tr>
 		</tbody>
 	</table>
-	
-	<form>
-		<input id="search_kw" th:value="${kw}" class="form-control me-2" style="width: 15%; margin-right:200px; margin-top: 30px; display:inline-block;" type="text"/> 
-		<button class="btn btn-outline-secondary" type="button" id="btn_search">
-		<i class="bi bi-search"></i>
-		</button>
-	</form>
-	
+		<form>
+			<input id="search_kw" th:value="${kw}" class="form-control me-2" style="width: 15%; margin-right:200px; margin-top: 30px; display:inline-block;" type="text"/> 
+				<button class="btn btn-outline-secondary" type="button" id="btn_search">
+					<i class="bi bi-search"></i>
+				</button>
+		</form>
 	<div style="margin-left:840px; margin-top: -35px;">
 		<a class="btn btn-light"  sec:authorize="isAuthenticated()" th:href="@{/cboard/create}">글쓰기</a>
 	</div>
-	
-	<!-- 페이징 구현 시작 -->
-	
 	<div td:if="${!paging.isEmpty()}" aria-label="Page navigation example" style="padding-left: 250px; padding-top:30px; position: fixed;">
 		<ul style="list-style: none;" class="pagination">
 			<li class="page-item" th:classappend="${!paging.hasPrevious}? 'disabled'">
@@ -59,7 +54,7 @@
 			<li th:each="page : ${#numbers.sequence(0, paging.totalPages-1)}"
 				th:if="${page >= paging.number-3 and page <= paging.number+3}"
 				th:classappend="${page == paging.number}? 'active'">
-					<a style="color: black;" class="page-link" th:text="${page}" href="javascript:void(0)" th:data-page="${page}"></a>
+				<a style="color: black;" class="page-link" th:text="${page}" href="javascript:void(0)" th:data-page="${page}"></a>
 			</li>
 			<li class="page-item" th:classappend="${!paging.hasNext}?'disabled'">
 				<a class="page-link" href="javascript:void(0)" th:data-page="${paging.number+1}">
@@ -68,15 +63,14 @@
 			</li>
 		</ul>
 	</div>
-	
-	<!-- 페이징 구현 끝 -->
-	<form th:action="@{/cboard/list}" method="get" id="searchForm">
-        <input type="hidden" id="kw" name="kw" th:value="${kw}">
-        <input type="hidden" id="page" name="page" th:value="${paging.number}">
-    </form>
-</div>
+		<form th:action="@{/cboard/list}" method="get" id="searchForm">
+			<input type="hidden" id="kw" name="kw" th:value="${kw}">
+			<input type="hidden" id="page" name="page" th:value="${paging.number}">
+		</form>
+	</div>
 </body>
 <script layout:fragment="script" type='text/javascript'>
+// 페이징
 const page_elements = document.getElementsByClassName("page-link");
 Array.from(page_elements).forEach(function(element) {
     element.addEventListener('click', function() {
@@ -84,10 +78,11 @@ Array.from(page_elements).forEach(function(element) {
         document.getElementById('searchForm').submit();
     });
 });
+// 검색
 const btn_search = document.getElementById("btn_search");
 btn_search.addEventListener('click', function() {
     document.getElementById('kw').value = document.getElementById('search_kw').value;
-    document.getElementById('page').value = 0;  // 검색버튼을 클릭할 경우 0페이지부터 조회한다.
+    document.getElementById('page').value = 0;
     document.getElementById('searchForm').submit();
 });
 </script>
