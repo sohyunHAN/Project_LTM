@@ -10,7 +10,4 @@ public class DataNotFoundException extends RuntimeException{
 	public DataNotFoundException(String message) {
 		super(message);
 	}
-
 }
-
-// 2023-02-27 승훈이가 추가한거

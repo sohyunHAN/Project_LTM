@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout}">
+<head>
+<meta charset="UTF-8">
+<title>게시글</title>
+<!-- 커뮤니티 css -->
+<link rel="stylesheet" href="/css/cboard_list.css" />
+</head>
+<body>
+<div layout:fragment="content" class="blog-area section_padding_100 mt-100" style="height: 1950px">
+   <div class="container">
+	  <div>
+	  	 <h1>공지사항</h1>
+	  </div>
+      <div>
+         <ul style="padding-left: 0;">
+            <li>
+               <div>
+                  <div style="width: 60%; float: left; border-top: 1px solid black; font-size: x-large;">[[${adboard.adtitle}]]</div>
+                  <div style="text-align: right; float: left; font-size: small; width: 40%; border-top: 1px solid black; padding-top: 8px">[[${#temporals.format(adboard.wdate, 'yyyy.MM.dd HH:mm')}]]</div>
+               </div>
+            </li>
+         <li  th:if="${adboard.nickname != null}">
+            <div>
+               <div style="width: 60%; float: left; border-top: 1px solid black;">[[${adboard.nickname.id}]]</div>
+               <div style="text-align: right; float: left; font-size: small; width: 40%; border-top: 1px solid black; padding-top: 3px">조회수 [[${adboard.view}]]</div>      
+            </div>
+         </li>
+         <li>
+            <div style="border-bottom: 1px solid black;">
+               <div style="width: 1110px; height: 400px; text-align: left; float: left; border-top: 1px solid black;" th:utext="${adboard.adbody}"></div>
+            </div>
+         </li>         
+            <li>
+               <div>
+                  <div style="color: gray;">해시태그 : [[${adboard.tags}]]</div>
+               </div>
+            </li>
+            <li>
+               <div>
+                  <div style="text-align: center; padding-top: 10px; padding-bottom: 10px; border-bottom: 1px solid black;">
+                     <a class="btn btn-light" th:href="@{|/adboard/list|}" style="width: 300px;">목록으로</a>
+                  </div>
+                  <div style="text-align: right; padding-top: 10px; padding-bottom: 10px; border-bottom: 1px solid black;">
+                     <a class="btn btn-light" th:href="@{|/adboard/mdate/${adboard.id}|}" th:text="수정" sec:authorize="isAuthenticated()"
+                     	th:if="${adboard.nickname != null and #authentication.getPrincipal().getUsername() == adboard.nickname.id}"></a>
+                     		<!-- 가독성을 위한 공백 -->
+                     <a href="javascript:void(0);" class="delete btn btn-light" th:data-uri="@{|/adboard/delete/${adboard.id}|}" sec:authorize="isAuthenticated()"
+                     	th:if="${adboard.nickname != null and #authentication.getPrincipal().getUsername() == adboard.nickname.id}" th:text="삭제"></a>
+                  </div>
+               </div>
+            </li>     
+         </ul>   
+      </div>
+   </div>
+</div>
+</body>
+<script layout:fragment="script" type='text/javascript'>
+   // 게시글 삭제
+   const delete_elements = document.getElementsByClassName("delete");
+   Array.from(delete_elements).forEach(function(element) {
+      element.addEventListener('click', function() {
+         if (confirm("게시글을 삭제하시겠습니까?")) {
+            location.href = this.dataset.uri;
+         };
+      });
+   });
+   // 댓글 삭제
+   const deleteR_elements = document.getElementsByClassName("deleteR");
+   Array.from(deleteR_elements).forEach(function(element) {
+      element.addEventListener('click', function() {
+         if (confirm("삭제하시겠습니까?")) {
+            location.href = this.dataset.uri;
+         };
+      });
+   });
+</script>
+</html>
