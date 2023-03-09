@@ -54,18 +54,12 @@
 		        </div>
 		        <button type="submit" class="btn btn-primary">회원가입</button>
 		    </form>
+
 		</div>
 		</div>
 		</div>
 <th:block layout:fragment="script">
-<script>
-  const hypenTel = (target) => {
- target.value = target.value
-   .replace(/[^0-9]/g, '')
-   .replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`);
-}
-
-</script>
+<script src="/js/membercreate.js"></script>
 </th:block>
 </body>
 </html>

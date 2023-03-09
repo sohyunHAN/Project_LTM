@@ -60,6 +60,11 @@ public class MemberController {
 	public String login() {
 		return "member/login_form";
 	}
+	@GetMapping("/agree")
+	public String agree() {
+		return "member/memberAgree";
+	}
+
 	@Bean
 	public ClassLoaderTemplateResolver secondaryTemplateResolver2() {
 	    ClassLoaderTemplateResolver secondaryTemplateResolver2 = new ClassLoaderTemplateResolver();
