@@ -6,4 +6,5 @@ import list.playlist.domain.WishList;
 
 public interface WishListRepository extends JpaRepository<WishList, Long>{
 
+	WishList findByMemberId(Long memberId);
 }

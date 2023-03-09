@@ -30,6 +30,9 @@
 						<!-- <p th:text="${Playlist.nickname}"></p> -->
 						<p th:text="${Playlist.title}"></p>
 						</a>
+						<form th:action="@{/playlist/wishlist}">
+						<button class="btn btn-outline-secondary" type="button" id="btn-wish" th:onclick="msg()">담기</button>
+						</form>
 					</td>	
 						
 		        </tr>
@@ -63,6 +66,7 @@
 	</div>
 	
 		<script layout:fragment="script" type='text/javascript'>
+		<!--검색스크립트-->
 			const page_elements = document.getElementsByClassName("page-link");
 			Array.from(page_elements).forEach(function(element) {
 				element.addEventListener('click', function() {
@@ -78,6 +82,15 @@
 				document.getElementById('searchForm').submit();
 			});
 		</script>
+		<!--검색스크립트-->
+		
+		<script type='text/javascript'>
+		<!--담기 alert --> 
+		function msg(){
+			alert("위시리스트에 담기")
+		}
+		</script>
+		
 
 </body>
 </html>

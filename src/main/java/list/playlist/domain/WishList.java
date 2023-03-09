@@ -31,4 +31,11 @@ public class WishList {
 	private PlayList playList;
 
 
+	public static WishList createWish(Member member) {
+		//회원 한명당 1개의 wishlist 를 가지므로 처음 상품을 담을때는 해당 회원의 wishlist
+		//WishList 엔티티에 회원 엔티티를 파라미터로 받아서 wishlist엔티티 생성로직
+		WishList wishList = new WishList();
+		wishList.setMember(member);
+		return wishList;
+	}
 }

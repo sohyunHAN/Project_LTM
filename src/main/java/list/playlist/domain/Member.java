@@ -20,7 +20,7 @@ public class Member {
 
 	@Id @GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "member_id")
-	private Long mid;
+	private Long id;
 	
 	@Column(name = "user_id")
 	private String userId;

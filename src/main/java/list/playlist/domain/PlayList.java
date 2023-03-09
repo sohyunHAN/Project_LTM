@@ -23,7 +23,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name="playlist")
+@Table(name="play_list")
 public class PlayList {
 
 	@Id 
