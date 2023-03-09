@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.server.ResponseStatusException;
-import org.springframework.web.servlet.mvc.annotation.ResponseStatusExceptionResolver;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 
@@ -46,7 +45,7 @@ public class CboardController {
 	private final MemberService memberService;
 	
 	
-	// 게시글 조회 + 페이징 구현
+		/*게시글 조회 + 페이징 구현*/
 		@GetMapping("/list")
 		public String list(Model model, @RequestParam(value= "page", defaultValue = "0") int page) {
 			Page<Cboard> paging = this.cboardService.getList(page);
@@ -56,7 +55,7 @@ public class CboardController {
 			return "cboard/cboard_list";
 		}
 		
-		// 게시글 상세 + 댓글 페이징
+		/*게시글 상세 + 댓글 페이징*/
 		@GetMapping("/detail/{id}")
 		public String detail(Model model, @PathVariable("id") Integer id,ReplyFormDto replyForm,
 				HttpServletRequest request,HttpServletResponse response,
@@ -66,7 +65,7 @@ public class CboardController {
 			Page<Reply> paging = this.replyService.getList(page);
 			model.addAttribute("paging", paging);
 			
-			/* 조회수 로직 */
+			/*조회수 로직*/
 			Cookie oldCookie = null;
 			Cookie[] cookies = request.getCookies();
 			if (cookies != null) {
@@ -76,20 +75,20 @@ public class CboardController {
 					}
 				}
 			}
-			
+			/*쿠키 시간*/
 			if (oldCookie != null) {
 				if (!oldCookie.getValue().contains("["+ id.toString() +"]")) {
 					this.cboardService.updateView(id);
 					oldCookie.setValue(oldCookie.getValue() + "_[" + id + "]");
 					oldCookie.setPath("/");
-					oldCookie.setMaxAge(60 * 60 * 24); 							// 쿠키 시간
+					oldCookie.setMaxAge(60 * 60 * 24); 							
 					response.addCookie(oldCookie);
 				}
 			} else {
 				this.cboardService.updateView(id);
 				Cookie newCookie = new Cookie("postView", "[" + id + "]");
 				newCookie.setPath("/");
-				newCookie.setMaxAge(60 * 60 * 24); 								// 쿠키 시간
+				newCookie.setMaxAge(60 * 60 * 24); 								
 				response.addCookie(newCookie);
 			}
 			
@@ -97,15 +96,14 @@ public class CboardController {
 			return "cboard/cboard_detail";
 		}
 		
-		// 게시글 작성
-		@PreAuthorize("isAuthenticated()") // 로그인이 필요한 메서드를 의미
+		/*게시글 작성*/
+		@PreAuthorize("isAuthenticated()")
 		@GetMapping("/create")
 		public String cboardCreate(CboardFormDto cboardForm, Principal principal) {
 			return "cboard/cboard_form";
 		}
-		
-		
-		// 게시글 등록
+			
+		/*게시글 등록*/
 		@PreAuthorize("isAuthenticated()")
 		@PostMapping("/create")
 		public String cboardCreate(@Valid CboardFormDto cboardForm,
@@ -118,7 +116,7 @@ public class CboardController {
 			return "redirect:/cboard/list"; // 등록후 목록으로		
 		}
 		
-		// 게시글 수정
+		/*게시글 수정*/
 		@GetMapping("/mdate/{id}")
 		public String cboardModify(CboardFormDto cboardForm, @PathVariable("id") Integer id,
 				Principal principal) {
@@ -132,7 +130,7 @@ public class CboardController {
 			return "cboard/cboard_form";
 		}
 		
-		// 게시글 수정 저장
+		/*게시글 수정 저장*/
 		@PreAuthorize("isAuthenticated()")
 		@PostMapping("/mdate/{id}")
 		public String cboardModify(@Valid CboardFormDto cboardForm, BindingResult bindingResult, @PathVariable("id")Integer id,
@@ -148,7 +146,7 @@ public class CboardController {
 			return String.format("redirect:/cboard/detail/%s", id);	
 		}
 		
-		// 게시글 삭제
+		/*게시글 삭제*/
 		@PreAuthorize("isAuthenticated()")
 		@GetMapping("/delete/{id}")
 		public String cboardDelete(Principal principal, @PathVariable("id") Integer id) {
@@ -161,7 +159,7 @@ public class CboardController {
 			return "redirect:/";
 		}
 		
-		// 게시글 추천
+		/*게시글 추천*/
 		@PreAuthorize("isAuthenticated()")
 		@GetMapping("/vote/{id}")
 		public String question(Principal principal,@PathVariable("id")Integer id) {
@@ -170,7 +168,8 @@ public class CboardController {
 			this.cboardService.vote(cboard, member);
 			return String.format("redirect:/cboard/detail/%s", id);
 		}
-		//templates 다중경로 설정
+		
+		/*templates 다중경로 설정*/
 		@Bean
 		public ClassLoaderTemplateResolver secondaryTemplateResolver() {
 		    ClassLoaderTemplateResolver secondaryTemplateResolver = new ClassLoaderTemplateResolver();

@@ -24,9 +24,8 @@ import lombok.RequiredArgsConstructor;
 public class ReplyService {
 	
 	private final ReplyRepository replyRepository;
-	
-	
-	// 댓글 작성
+		
+		/*댓글 작성*/
 		public void create(Cboard cboard, String rbody, Member nickname) {
 			Reply reply = new Reply();
 			reply.setRbody(rbody);
@@ -36,7 +35,7 @@ public class ReplyService {
 			this.replyRepository.save(reply);
 		}
 		
-		// 댓글 조회
+		/*댓글 조회*/
 		public Reply getReply(Integer id) {
 			Optional<Reply> reply = this.replyRepository.findById(id);
 			if(reply.isPresent()) {
@@ -46,19 +45,19 @@ public class ReplyService {
 			}
 		}	
 			
-		// 댓글 수정
+		/*댓글 수정*/
 		public void modify(Reply reply, String rbody) {
 			reply.setRbody(rbody);
 			reply.setMdate(LocalDateTime.now());
 			this.replyRepository.save(reply);
 		}
 		
-		// 댓글 삭제
+		/*댓글 삭제*/
 		public void delete(Reply reply) {
 			this.replyRepository.delete(reply);
 		}
 		
-		// 댓글 페이징
+		/*댓글 페이징*/
 		public Page<Reply> getList(int page){
 			List<Sort.Order> sorts = new ArrayList<>();
 			sorts.add(Sort.Order.desc("wdate"));
@@ -66,10 +65,9 @@ public class ReplyService {
 			return this.replyRepository.findAll(pageable);
 		}
 		
-		// 댓글 추천
+		/*댓글 추천*/
 		public void vote(Reply reply, Member member) {
 			reply.getVoter().add(member);
 			this.replyRepository.save(reply);
 		}
-
 }

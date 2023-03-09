@@ -19,23 +19,30 @@ import lombok.Setter;
 @Entity
 public class Reply {
 	
+	/*댓글번호*/
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id; // 댓글번호
+	private Integer id;
 	
+	/*댓글*/
 	@Column(columnDefinition = "TEXT")
-	private String rbody; // 댓글
+	private String rbody;
 	
-	private LocalDateTime wdate; // 작성일
+	/*작성일*/
+	private LocalDateTime wdate;
 	
-	private LocalDateTime mdate; // 수정일
+	/*수정일*/
+	private LocalDateTime mdate;
 	
+	/* N:1 */
 	@ManyToOne
-	private Cboard cboard; // N:1
+	private Cboard cboard;
 	
+	/*작성자*/
 	@ManyToOne
 	private Member nickname; // 작성자
 	
+	/*추천*/
 	@ManyToMany
     Set<Member> voter;
 

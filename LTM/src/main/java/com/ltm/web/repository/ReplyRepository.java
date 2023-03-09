@@ -8,6 +8,6 @@ import com.ltm.web.entity.Reply;
 
 public interface ReplyRepository extends JpaRepository<Reply, Integer>{
 	
-	Page<Reply> findAll(Pageable pageable); // 페이징 구현
+	Page<Reply> findAll(Pageable pageable); // 댓글 페이징 구현
 
 }

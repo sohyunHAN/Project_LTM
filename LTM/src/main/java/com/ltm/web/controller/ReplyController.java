@@ -35,9 +35,9 @@ public class ReplyController {
 	private final MemberService memberService;
 	
 	
-	// 댓글 작성
+		/*댓글 작성*/
 		@PreAuthorize("isAuthenticated()")
-		@PostMapping("/create/{id}") // 질문의 id
+		@PostMapping("/create/{id}") // 댓글의 id
 		public String createReply(Model model, @PathVariable("id") Integer id,
 			@Valid ReplyFormDto replyForm, BindingResult bindingResult, Principal principal) {
 			Cboard cboard = this.cboardService.getCboard(id);
@@ -50,13 +50,13 @@ public class ReplyController {
 			return String.format("redirect:/cboard/detail/%s", id);
 			
 		}
-		
-		// 댓글 수정 요청
-		  @PreAuthorize("isAuthenticated()")
-		  @GetMapping("/mdate/{id}")
-		  public String replyModify(Principal principal, ReplyFormDto replyForm, @PathVariable("id")Integer id) {
-			  Reply reply = this.replyService.getReply(id);
-			  if(!reply.getNickname().getId().equals(principal.getName())) {
+
+		/*댓글 수정 요청*/
+		@PreAuthorize("isAuthenticated()")
+		@GetMapping("/mdate/{id}")
+		public String replyModify(Principal principal, ReplyFormDto replyForm, @PathVariable("id")Integer id) {
+		Reply reply = this.replyService.getReply(id);
+			if(!reply.getNickname().getId().equals(principal.getName())) {
 				  throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"수정권한이 없습니다");
 			  }
 			  replyForm.setRbody(reply.getRbody());
@@ -64,7 +64,7 @@ public class ReplyController {
 		  }
 		 
 		
-		// 댓글 수정 처리
+		/*댓글 수정 처리*/
 		@PreAuthorize("isAuthenticated()")
 		@PostMapping("/mdate/{id}")
 		public String replyModify(Principal principal, @Valid ReplyFormDto replyForm, BindingResult bindingResult,
@@ -82,7 +82,8 @@ public class ReplyController {
 			
 			}
 		}
-		// 댓글 삭제
+		
+		/*댓글 삭제*/
 		@PreAuthorize("isAuthenticated()")
 		@GetMapping("/delete/{id}")
 		public String replyDelete(Principal principal, @PathVariable("id") Integer id) {
@@ -96,7 +97,7 @@ public class ReplyController {
 		
 		}
 		
-		// 댓글 추천
+		/*댓글 추천*/
 		@PreAuthorize("isAuthenticated()")
 		@GetMapping("/vote/{id}")
 		public String replyVote(Principal principal, @PathVariable("id")Integer id) {
