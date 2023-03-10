@@ -14,7 +14,7 @@ import list.playlist.domain.Song;
 
 public interface PlaylistRepository extends JpaRepository<PlayList, Long> {
 	
-	// PlayList findByid(String id);
+	//PlayList findById(String id);
 	PlayList findByTitle(String title);
 	PlayList findByDiscription (String discription);
 	//PlayList findByNickname (String nickname);

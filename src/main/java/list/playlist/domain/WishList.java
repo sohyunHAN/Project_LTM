@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -16,6 +17,7 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
+@Table(name="wish_list")
 public class WishList {
 
 	@Id @GeneratedValue(strategy = GenerationType.AUTO)
@@ -26,9 +28,9 @@ public class WishList {
 	@JoinColumn(name = "member_id") 
 	private Member member;
 	
-	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "pl_id")
-	private PlayList playList;
+//	@OneToOne(fetch = FetchType.LAZY)
+//	@JoinColumn(name = "pl_id")
+//	private PlayList playList;
 
 
 	public static WishList createWish(Member member) {
