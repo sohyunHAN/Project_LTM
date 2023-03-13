@@ -50,7 +50,7 @@
 	            
 				<li th:each="page: ${#numbers.sequence(0, paging.totalPages-1)}" 
 				th:if="${page >= paging.number-5 and page <= paging.number+5}"
-				th:classappend="${page == paging.number} ? 'active'" class="page-item">
+				th:classappend="${page == paging.number} ? 'active'">
 				<a th:text="${page}" class="page-link"  href="javascript:void(0)" th:data-page="${page}"></a>
            		</li>
            		

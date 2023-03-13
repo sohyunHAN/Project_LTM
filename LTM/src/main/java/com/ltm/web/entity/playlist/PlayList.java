@@ -25,7 +25,7 @@ import lombok.Setter;
 @Setter
 public class PlayList {
 
-	@Id @GeneratedValue(strategy = GenerationType.AUTO)
+	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "pl_id")
 	private Long id;
 	
@@ -34,7 +34,6 @@ public class PlayList {
 	
 	private String discription;
 	
-	@Column(nullable=false)
 	private String image;
 	
 	@OneToOne(mappedBy = "playList",fetch = FetchType.LAZY)
