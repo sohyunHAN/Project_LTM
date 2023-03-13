@@ -32,7 +32,7 @@ public class MemberService {
 		member.setPhone(phone);
 		member.setBirth(birth); 
 		member.setJoindate(LocalDateTime.now());
-		member.setRole(role);
+		member.setRole(MemberRole.MEMBER);
 		this.memberRepository.save(member);
 		return member;
 	}

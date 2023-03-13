@@ -14,6 +14,7 @@ import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 
 import com.ltm.web.Dto.MemberFormDto;
 import com.ltm.web.Service.MemberService;
+import com.ltm.web.repository.MemberRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -38,7 +39,6 @@ public class MemberController {
 			bindingResult.rejectValue("password2", "passwordInCorrect", "2개의 패스워드가 일치하지 않습니다.");
 			return "member/MemberCreate";
 		}
-		
 		try {
 		memberService.create(memberFormDto.getId(), memberFormDto.getPassword1(), 
 				memberFormDto.getNickname(), memberFormDto.getEmail(),
@@ -46,7 +46,7 @@ public class MemberController {
 				memberFormDto.getBirth(), memberFormDto.getJoindate(), memberFormDto.getRole());
 		} catch(DataIntegrityViolationException e) {
 			e.printStackTrace();
-			bindingResult.reject("signupFailed", "이미 등록된 사용자입니다.");
+			bindingResult.rejectValue("signupFailed", "아이디, 닉네임 혹은 이메일이 이미 사용중 입니다.");
 			return "member/MemberCreate";
 		} catch(Exception e) {
 			e.printStackTrace();
