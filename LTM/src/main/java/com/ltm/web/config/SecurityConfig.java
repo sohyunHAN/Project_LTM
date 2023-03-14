@@ -20,7 +20,8 @@ public class SecurityConfig {
 
 	@Bean
 	SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-		http.authorizeHttpRequests()
+		http
+			.authorizeHttpRequests()
 			.requestMatchers(new AntPathRequestMatcher("/**")).permitAll()//로그인 하지 않아도 모든 페이지에 접근가능 (추후 첫 메인페이지만 접근하도록 수정 예정)
 			.antMatchers("/css/**", "/js/**", "/img/**").permitAll()
 
@@ -35,6 +36,9 @@ public class SecurityConfig {
             .logoutSuccessUrl("/")
             .invalidateHttpSession(true)	
 			
+         .and() //2023-03-14 추가 csrf토큰 안넣어도 됨.
+         	.csrf().disable()
+			.cors()
 		;
 		
 		return http.build();
@@ -48,5 +52,6 @@ public class SecurityConfig {
 	AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception{
 		return authenticationConfiguration.getAuthenticationManager();
 	}
+
 	
 }

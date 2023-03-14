@@ -77,11 +77,10 @@ public class PlayListService {
 		return playListRepository.findMemberPlayList(memberId);
 	}
 
-	// 소현님 코드
 	// 전체 플레이리스트
 	public Page<PlayList> getlist(int page) {
 		Pageable pageable = PageRequest.of(page, 2); // page는 조회할 페이지의 번호, 2는 한페이지에 보여줄 게시물의 개수
-		return this.playListRepository.findAll(pageable);
+		return playListRepository.findAll(pageable);
 		// 목록을 조회하여 리턴하는 getlist 메서드 추가. 컨트롤러에서 레포지토리를 사용했던 부분을 그대로 옮긴 것
 		// 엔티티클래스와 데이터베이스가 직접맞닿아서 컨트롤러나 타임리프같은 템플릿 엔진에 전달하여 사용하는 것은 좋지 않기 때문에 서비스를 사용
 	}
@@ -89,7 +88,7 @@ public class PlayListService {
 	// 검색 결과 플레이리스트
 	public Page<PlayList> getlistkeyword(int page, String kw) {
 		Pageable pageable = PageRequest.of(page, 2); // page는 조회할 페이지의 번호, 2는 한페이지에 보여줄 게시물의 개수
-		return this.playListRepository.findByKeyword(kw, pageable);
+		return playListRepository.findByKeyword(kw, pageable);
 	}
 
 	public PlayList getPlayList(Long id) {

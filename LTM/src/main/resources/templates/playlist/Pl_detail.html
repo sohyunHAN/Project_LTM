@@ -24,7 +24,7 @@
 			<li th:text="${Song.songTitle}"></li>
 			<li th:text="${Song.singer}"></li>
 			<li><img th:src="${Song.image}"></li>
-			<li><a href="#"
+			<li sec:authorize="isAuthenticated()"><a href="#"
 					th:onclick="remove('[[${Song.id}]]','[[${Song.playList.id}]]')">삭제</a></li>
 		</ul>
 
@@ -40,7 +40,8 @@
         hiddenField.setAttribute("name", "plSongId");
         hiddenField.setAttribute("value", plSongId);
         form.appendChild(hiddenField);
-		
+
+        
 		document.body.appendChild(form);
 		form.submit();
 	}

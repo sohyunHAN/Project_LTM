@@ -138,7 +138,7 @@ public class PlayListController {
 
 	}
 
-	//담긴 노래
+	//플레이리스트 상세 페이지
 	@GetMapping("/{id}/song")
 	public String pldetail(Model model, @PathVariable("id") Long plId) {
 		PlayList playlist = this.playListService.findOne(plId);
@@ -154,7 +154,7 @@ public class PlayListController {
 	public String removeSong(@RequestParam("plSongId") Long plSongId) {
 		PlSong plSong = plSongService.findOne(plSongId);
 		plSongRepository.delete(plSong);
-		return "redirect:/{plId}/song";
+		return "redirect:/";
 	}
 
 	
@@ -168,12 +168,10 @@ public class PlayListController {
 							      Model model) {
 		
 		Member member = this.memberService.getMember(principal.getName());
-		
+
 		//내 플레이리스트 조회
 		List<PlayList> myPlayList = playListService.findMemberPl(member.getId());
-
-
-		
+	
 		model.addAttribute("myList", myPlayList);
 		model.addAttribute("Title", songTitle);
 		model.addAttribute("singer", singer);

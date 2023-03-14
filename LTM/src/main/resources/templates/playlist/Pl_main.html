@@ -33,6 +33,7 @@
 						<img th:src="@{/img/} + ${Playlist.image}" />
 						<!-- <p th:text="${Playlist.nickname}"></p> -->
 						<p th:text="${Playlist.title}"></p>
+						<a sec:authorize="isAuthenticated()" href="#" th:onclick="wishlist('[[${Playlist.id}]]')">좋아요</a>
 						</a>
 					</td>	
 						
@@ -86,7 +87,23 @@
 				document.getElementById('page').value = 0; // 검색버튼을 클릭할 경우 0페이지부터 조회한다.
 				document.getElementById('searchForm').submit();
 			});
+			
+			function wishlist(plId){
+				var form = document.createElement("form");
+				form.setAttribute("method", "post");
+				form.setAttribute("action", "/getwishlist");
+				var hiddenField = document.createElement("input");
+		        hiddenField.setAttribute("type", "hidden");
+		        hiddenField.setAttribute("name", "plId");
+		        hiddenField.setAttribute("value", plId);
+		        form.appendChild(hiddenField);
+
+		        
+				document.body.appendChild(form);
+				form.submit();
+			}
 		</script>
+
 
 </body>
 </html>

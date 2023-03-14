@@ -15,11 +15,6 @@ import com.ltm.web.entity.playlist.PlayList;
 
 public interface PlayListRepository extends JpaRepository<PlayList, Long> {
 
-//	@Query(value = "select m.user_id, pl.pl_title" +
-//				   " from play_list pl" + " join member m" + 
-//			       " where m.user_id = %:user% or pl.pl_title = %:title%", nativeQuery = true)
-//	public List<PlayList> findPlList(@Param(value = "user") String userId, @Param(value = "title") String plTitle);
-
 	// PlayList findByid(String id);
 	PlayList findByTitle(String title);
 
@@ -37,6 +32,6 @@ public interface PlayListRepository extends JpaRepository<PlayList, Long> {
 	Page<PlayList> findByKeyword(@Param("kw") String kw, Pageable pageable);
 	
 	//노래 넣을때 회원 id를 가진 플레이리스트 목록 조회
-	@Query(value = "select p.title from PlayList p where p.member = :id",nativeQuery=true)
+	@Query(value = "select * from play_list p where p.id = :id",nativeQuery=true)
 	List<PlayList> findMemberPlayList(@Param("id") String memberId);
 }

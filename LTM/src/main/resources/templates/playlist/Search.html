@@ -44,7 +44,6 @@
 <body>
 
 	<form action="search" method="post">
-	<input type="hidden" name="_csrf" id="_csrf" th:value="${_csrf.token}">
 		<label for="songinfo">음악검색하기</label> <input type="text" id="songinfo"
 			name="songinfo" class="whatToSearch" placeholder="검색"
 			autocomplete="off" onkeyup="addMusicList()">
