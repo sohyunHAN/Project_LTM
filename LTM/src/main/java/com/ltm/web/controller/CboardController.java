@@ -47,11 +47,12 @@ public class CboardController {
 	
 		/*게시글 조회 + 페이징 구현*/
 		@GetMapping("/list")
-		public String list(Model model, @RequestParam(value= "page", defaultValue = "0") int page) {
-			Page<Cboard> paging = this.cboardService.getList(page);
+		public String list(Model model, @RequestParam(value= "page", defaultValue = "0") int page,@RequestParam(value = "kw", defaultValue = "") String kw) {
+			Page<Cboard> paging = this.cboardService.getList(page, kw);
 			model.addAttribute("paging",paging);
 			List<Cboard> cboardList = this.cboardService.getList();
 			model.addAttribute("cboardList", cboardList);
+			model.addAttribute("kw", kw);
 			return "cboard/cboard_list";
 		}
 		
