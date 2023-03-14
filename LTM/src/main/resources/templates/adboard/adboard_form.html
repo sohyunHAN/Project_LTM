@@ -14,7 +14,7 @@
 			<h1>공지사항</h1>
 		</div>
 			<form th:object="${adboardFormDto}" method="post" enctype="multipart/form-data" class="form-floating">
-				<input type="hidden" name="_csrf" id="_csrf" th:value="${_csrf.token}">		
+
 		<div class="mb-3">
 			<p style="color: red;" th:if="${#fields.hasErrors('adtitle')}" th:errors="*{adtitle}" class="fieldError"></p>
 			<input class="form-control" type="text" th:field="*{adtitle}" name="adtitle" id="adtitle" placeholder="제목">
