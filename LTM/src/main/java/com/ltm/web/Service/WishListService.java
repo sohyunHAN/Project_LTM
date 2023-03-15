@@ -2,13 +2,11 @@ package com.ltm.web.Service;
 
 import java.util.List;
 
-import javax.persistence.EntityNotFoundException;
-import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ltm.web.entity.Member;
-import com.ltm.web.entity.playlist.PlSong;
 import com.ltm.web.entity.playlist.PlayList;
 import com.ltm.web.entity.playlist.WishList;
 import com.ltm.web.repository.WishListRepository;
@@ -40,6 +38,7 @@ public class WishListService {
 	}
 	
 	//위시리스트 조회
+	@Transactional(readOnly = true)
 	public List<WishList> findPlSongs(String memberId){
 		return wishListRepository.findWishList(memberId);
 	}

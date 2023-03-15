@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="www.thymeleaf.org" 
+	  layout:decorate="~{layout}"
+	  lang="en">
 <head>
 <meta charset="UTF-8">
 <title>PL DETAIL</title>
@@ -7,6 +9,11 @@
 <link rel="stylesheet" type="text/css" th:href="@{/css/playlist.css}">
 </head>
 <body>
+
+<div layout:fragment="content" class="blog-area section_padding_100 mt-100">
+	<div class="container">
+		<div class="row justify-content-center">
+
 플레이리스트 상세화면<br>
 
 
@@ -27,7 +34,20 @@
 			<li sec:authorize="isAuthenticated()"><a href="#"
 					th:onclick="remove('[[${Song.id}]]','[[${Song.playList.id}]]')">삭제</a></li>
 		</ul>
-
+		
+		
+	<th:block layout:fragment="script">
+    <!-- jQuery (Necessary for All JavaScript Plugins) -->
+    <script src="/js/jquery/jquery-2.2.4.min.js"></script>
+    <!-- Popper js -->
+    <script src="/js/popper.min.js"></script>
+    <!-- Bootstrap js -->
+    <script src="/js/bootstrap.min.js"></script>
+    <!-- Plugins js -->
+    <script src="/js/plugins.js"></script>
+    <!-- Active js -->
+    <script src="/js/active.js"></script>
+	</th:block>
 
 </body>
 <script>

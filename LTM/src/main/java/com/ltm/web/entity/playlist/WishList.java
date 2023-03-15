@@ -29,7 +29,7 @@ public class WishList {
 	@JoinColumn(name = "id")
 	private Member member;
 
-	@OneToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "pl_id")
 	private PlayList playList;
 

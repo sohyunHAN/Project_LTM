@@ -36,7 +36,7 @@ public class PlayList {
 	
 	private String image;
 	
-	@OneToOne(mappedBy = "playList",fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY)
 	private WishList wishList;
 
 	@ManyToOne(fetch = FetchType.LAZY)
